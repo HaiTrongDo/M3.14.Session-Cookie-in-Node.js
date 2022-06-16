@@ -3,8 +3,6 @@ let escapeHtml = require('escape-html');
 let http = require('http');
 let url = require('url');
 
-
-
 function creatServer(req, res) {
 // Parse the query string
     let query = url.parse(req.url, true, true).query;

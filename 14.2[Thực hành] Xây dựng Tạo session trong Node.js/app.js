@@ -83,7 +83,7 @@ let createTokenSession = function (data){
 }
 
 let createRandomString = function (strLength){
-    strLength = typeof(strLength) == 'number' & strLength >0 ? strLength:false;
+    strLength = typeof(strLength) == 'number' && strLength >0 ? strLength:false;
     if (strLength){
         let possibleCharacter = 'abcdefghiklmnopqwerszx1234567890';
         let str='';

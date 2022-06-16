@@ -109,13 +109,13 @@ let createTokenSession = function (fileName, data){
 
 
 let createRandomString = function (strLength){
-    strLength = typeof(strLength) == 'number' & strLength >0 ? strLength:false;
+    strLength = typeof(strLength) == 'number' && strLength >0 ? strLength:false;
     if (strLength){
         let possibleCharacter = 'abcdefghiklmnopqwerszx1234567890';
         let str='';
         for (let i = 0; i <strLength ; i++) {
-            let ramdomCharater = possibleCharacter.charAt(Math.floor(Math.random()*possibleCharacter.length));
-            str+=ramdomCharater;
+            let randomCharacter = possibleCharacter.charAt(Math.floor(Math.random()*possibleCharacter.length));
+            str+=randomCharacter;
         }
         return str;
     }
@@ -179,6 +179,7 @@ let readSession = function(req, res){
 }
 
 const server = http.createServer(function (req, res) {
+    console.log(req);
     readSession(req, res);
 });
 server.listen(8080, function () {

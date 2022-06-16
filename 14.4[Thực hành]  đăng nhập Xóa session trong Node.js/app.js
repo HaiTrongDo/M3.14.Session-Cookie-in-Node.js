@@ -13,7 +13,6 @@ server.listen(8080, function () {
 });
 
 let handlers = {};
-
 handlers.login = function (rep, res) {
         fs.readFile('./views/login.html', function(err, data) {
             res.writeHead(200, {'Content-Type': 'text/html'});
