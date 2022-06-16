@@ -23,8 +23,6 @@ handlers.notfound = function (rep, res) {
 };
 
 handlers.infor = function (req, res) {
-
-// xu ly submit
     let data = '';
     req.on('data', chunk => {
         data += chunk;
@@ -62,18 +60,13 @@ let router = {
 
 handlers.infor = function (req, res) {
 
-// xu ly submit
-
     let data = '';
     req.on('data', chunk => {
         data += chunk;
     })
     req.on('end', () => {
-//- Lấy thông tin từ form login
         data = qs.parse(data);
-//- Tạo thời gian hết hạn cho sessionId
         let expires = Date.now() + 1000*60*60;
-//- Tạo chuỗi để ghi vào sessionId
         let tokenSession = "{\"name\":\""+data.name+"\",\"email\":\""+data.email+"\",\"password\":\""+data.password+"\",\"expires\":"+expires+"}";
 //- Tạo sessionId ngẫu nhiên
         let tokenId = createRandomString(20);
@@ -82,15 +75,15 @@ handlers.infor = function (req, res) {
 //- Dùng localStorage để ghi lại sessionId phía client.
         localStorage.set('token', tokenId);
 //- Hiển thị trang infor
-        fs.readFile('./views/infor.html', 'utf8', function (err, datahtml) {
+        fs.readFile('./views/infor.html', 'utf8', function (err, str) {
             if (err) {
-                console.log(err);
+                console.log(err.message);
             }
-            datahtml = datahtml.replace('{name}', data.name);
-            datahtml = datahtml.replace('{email}', data.email);
-            datahtml = datahtml.replace('{password}', data.password);
+            str = str.replace('{name}', data.name);
+            str = str.replace('{email}', data.email);
+            str = str.replace('{password}', data.password);
             res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.write(datahtml);
+            res.write(str);
             return res.end();
         });
 
@@ -105,7 +98,6 @@ let createTokenSession = function (fileName, data){
     fs.writeFile(fileName, data, err => {
     });
 }
-//tạo ra chuỗi ngẫu nhiên
 
 
 let createRandomString = function (strLength){
@@ -126,18 +118,17 @@ let createRandomString = function (strLength){
 let readSession = function(req, res){
 //lấy sessionId từ local storage
     let tokenID = localStorage.get("token");
+    console.log(tokenID);
     if (tokenID){
         let sessionString= "";
         let expires=0;
 //đọc file sessionId tương ứng phía server
-
         fs.readFile('./token/'+tokenID, 'utf8' , (err, data) => {
             if (err) {
                 console.error(err)
                 return
             }
             sessionString = String(data);
-
 // lấy ra thời gian hết hạn của sessionId
             expires = JSON.parse(sessionString).expires;
 // lấy ra thời gian hiện tại
@@ -179,7 +170,6 @@ let readSession = function(req, res){
 }
 
 const server = http.createServer(function (req, res) {
-    console.log(req);
     readSession(req, res);
 });
 server.listen(8080, function () {

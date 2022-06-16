@@ -64,7 +64,6 @@ handlers.home = function (req, res) {
     req.on('error', () => {
         console.log('error')
     })
-
 };
 
 // products page

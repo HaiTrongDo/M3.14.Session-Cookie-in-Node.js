@@ -6,18 +6,18 @@ const url = require("url");
 
 
 const server = http.createServer((req, res) => {
-    if (req.method=== 'GET' && req.url === '/appointment'){
+    if (req.method === 'GET' && req.url === '/appointment') {
         loadAppointmentForm(res);
-    } else if (req.method=== 'POST' && req.url === '/appointment'){
-        let loadedData =''
+    } else if (req.method === 'POST' && req.url === '/appointment') {
+        let loadedData = ''
         req.on('data', chunk => {
-            loadedData +=chunk;
+            loadedData += chunk;
         })
-        req.on('end', ()=>{
+        req.on('end', () => {
             loadedData = qs.parse(loadedData)
-            fs.writeFile('./token/dataFromForm',JSON.stringify(loadedData), err => {
-                if (err){
-                throw err;
+            fs.writeFile('./token/dataFromForm', JSON.stringify(loadedData), err => {
+                if (err) {
+                    throw err;
                 }
                 res.setHeader('Set-Cookie', cookie.serialize('appointment', JSON.stringify(loadedData), {
                     httpOnly: true,
@@ -28,20 +28,20 @@ const server = http.createServer((req, res) => {
                 res.end();
             })
         })
-        req.on('error',(err)=>{
+        req.on('error', (err) => {
             console.log(err.message);
         })
     }
-}).listen(5000,()=>{
+}).listen(5000, () => {
     console.log("server is listening on port 5000")
 })
 
 
 function loadAppointmentForm(res) {
     fs.readFile('./appointment-form.html', "utf-8", (err, data) => {
-        // if (err) {
-        //     console.log(err.message)
-        // }
+        if (err) {
+            console.log(err.message)
+        }
         res.writeHead(200, {'Content-Type': 'text/html'})
         res.write(data)
         res.end()

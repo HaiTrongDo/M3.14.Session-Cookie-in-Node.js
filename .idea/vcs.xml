@@ -2,6 +2,8 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/14.7 tính năng Trang chủ người dùng (Profile) sử dụng session/glass-html-website" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/14.7 tính năng Trang chủ người dùng (Profile) sử dụng session/views" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/14.8[Bài tập] Xây dựng chức năng giỏ hàng trong Node.js/react-ecommerce" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/14.8[Bài tập] Xây dựng chức năng giỏ hàng trong Node.js/react-ecommerce/Ecommerce" vcs="Git" />
   </component>
