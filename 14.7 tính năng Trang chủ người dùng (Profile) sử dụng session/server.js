@@ -1,4 +1,4 @@
-const http = require('http')
+const http = require('http');
 const fs = require("fs");
 const qs = require('qs')
 const cookie = require("cookie");
@@ -13,10 +13,13 @@ handlers.home = (req, res) => {
         return res.end();
     })
 }
+
+
 handlers.login = function (rep, res) {
-    let cookies = JSON.parse(cookie.parse(rep.headers.cookie).register);
-    let tokenData = JSON.parse(fs.readFileSync('./token/dataFromForm','utf-8'));
-    let checkName = cookies['First name'] === tokenData['First name'] && cookies['Last Name'] === tokenData['Last Name'];
+    let cookies = (rep.headers.cookie)? JSON.parse(cookie.parse(rep.headers.cookie).register) : '';
+    let tokenData = (fs.existsSync('./token/dataFromForm')) ? JSON.parse(fs.readFileSync('./token/dataFromForm','utf-8')) :'';
+    let checkName = cookies && tokenData&& cookies['First name'] === tokenData['First name'] && cookies['Last Name'] === tokenData['Last Name'];
+    console.log(tokenData);
     if (checkName){
         res.writeHead(200, {'Content-Type': 'text/html'});
         res.write(`<h1> Welcome ${cookies['First name']} ${cookies['Last Name']}, you are logged in</h1>`);
@@ -28,8 +31,9 @@ handlers.login = function (rep, res) {
             return res.end();
         });
     }
-
 };
+
+
 handlers.register = (req, res) => {
     if (req.method === 'GET') {
         fs.readFile("./views/register.html", (err, str) => {
@@ -46,7 +50,7 @@ handlers.register = (req, res) => {
             loadedData = qs.parse(loadedData)
             fs.writeFile('./token/dataFromForm', JSON.stringify(loadedData), err => {
                 if (err) {
-                    throw err;
+                    console.log(err.message);
                 }
                 res.setHeader('Set-Cookie', cookie.serialize('register', JSON.stringify(loadedData), {
                     httpOnly: true,
